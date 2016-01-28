@@ -84,7 +84,14 @@ int isDir(char * fullpath) {
 
 void BreadthFirstSearch(char * dirName, char * searchName) {
     //change to the correct directory if not already there
-    if (dirName[0] == '/') chdir(dirName);
+    //also print the starting directory
+    if (dirName[0] == '/') {
+        chdir(dirName);
+        printf("%s\n", dirName);
+    }
+    else {
+        printf("%s\n", realpath(dirName, NULL));
+    }
     //initialize and open directory with error checking
     struct dirent * d;
     DIR * dp;
@@ -110,7 +117,6 @@ void BreadthFirstSearch(char * dirName, char * searchName) {
         //dequeue from the queue
         node * dq = dequeue(&queue);
         printf("%s\n", dq->fullpath);
-        free(dq);
         //compare the file name to searchName
         //exit the function if found
         if (strcmp(dq->file->d_name, searchName) == 0) {
@@ -125,6 +131,7 @@ void BreadthFirstSearch(char * dirName, char * searchName) {
             char temppath[PATH_MAX];
             getcwd(temppath, PATH_MAX);
             chdir(dq->fullpath);
+            free(dq);
             //entries to enqueue from the Directory stream dstrm
             struct dirent * dIns;
             DIR * dstrm;
@@ -137,8 +144,6 @@ void BreadthFirstSearch(char * dirName, char * searchName) {
                     enqueue(node_new(dIns, realpath(dIns->d_name, NULL)), &queue);
                 }
             }
-            free(dIns);
-            free(dstrm);
             //restore previous working directory
             chdir(temppath);
         }
