@@ -1,7 +1,7 @@
 //ECS150_program1.3.c
-//Trevor Gudmundsen
-//Robert Gonzales
-//Natalia
+//Trevor Gudmundsen 999675892
+//Robert Gonzales   912431466
+//Natalia Sandoval  998436223
 
 #include <stdio.h>
 #include <sys/types.h>
